@@ -4,12 +4,33 @@ import { registerForPushNotificationsAsync } from "../../utils/registerForPushNo
 import * as Device from "expo-device";
 import * as Notifications from "expo-notifications";
 import { useEffect, useState } from "react";
+import { Duration, isBefore, intervalToDuration } from "date-fns";
+
+// Set the timestamp to 10 seconds from now
+const timestamp = Date.now() + 10 * 1000;
+
+type CountdownStatus = {
+  isOverdue: boolean;
+  distance: Duration;
+};
 
 export default function CounterScreen() {
+  const [status, setStatus] = useState<CountdownStatus>({
+    isOverdue: false,
+    distance: {},
+  });
+  console.log(status);
   const [secondsElapsed, setSecondsElapsed] = useState(0);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
+      const isOverdue = isBefore(timestamp, Date.now());
+      const distance = intervalToDuration(
+        isOverdue
+          ? { start: timestamp, end: Date.now() }
+          : { start: Date.now(), end: timestamp },
+      );
+      setStatus({ isOverdue, distance });
       setSecondsElapsed((val) => val + 1);
     }, 1000);
     // Clear the interval when the component unmounts
@@ -41,7 +62,6 @@ export default function CounterScreen() {
   };
   return (
     <View style={styles.container}>
-      <Text>{secondsElapsed}</Text>
       <TouchableOpacity
         style={styles.button}
         activeOpacity={0.8}
