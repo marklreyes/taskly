@@ -2,7 +2,10 @@ import { StatusBar } from "expo-status-bar";
 import { StyleSheet, TextInput, FlatList, View, Text } from "react-native";
 import { theme } from "../theme";
 import { ShoppingListItem } from "../components/ShoppingListItem";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getFromStorage, saveToStorage } from "../utils/storage";
+
+const storageKey = "shopping-list";
 
 type ShoppingListItemType = {
   id: string;
@@ -15,6 +18,15 @@ export default function App() {
   const [shoppingList, setShoppingList] = useState<ShoppingListItemType[]>([]);
   const [value, setValue] = useState("");
 
+  useEffect(() => {
+    (async () => {
+      const data = await getFromStorage(storageKey);
+      if (data) {
+        setShoppingList(data);
+      }
+    })();
+  }, []);
+
   const handleSubmit = () => {
     if (!value) return;
     const newItem: ShoppingListItemType = {
@@ -23,11 +35,13 @@ export default function App() {
       lastUpdatedTimestamp: Date.now(),
     };
     setShoppingList([newItem, ...shoppingList]);
+    saveToStorage(storageKey, shoppingList);
     setValue("");
   };
 
   const handleDelete = (id: string) => {
     const newShoppingList = shoppingList.filter((item) => item.id !== id);
+    saveToStorage(storageKey, newShoppingList);
     setShoppingList(newShoppingList);
   };
 
@@ -44,6 +58,7 @@ export default function App() {
       }
       return item;
     });
+    saveToStorage(storageKey, newShoppingList);
     setShoppingList(newShoppingList);
   };
 
