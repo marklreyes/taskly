@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: "row",
-		marginBottom: 24,
+    marginBottom: 24,
   },
   heading: {
     fontSize: 24,
