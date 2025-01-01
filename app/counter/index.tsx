@@ -133,7 +133,9 @@ export default function CounterScreen() {
       ]}
     >
       {status.isOverdue ? (
-        <Text style={[styles.heading, styles.whiteText]}>Next carwash was due in</Text>
+        <Text style={[styles.heading, styles.whiteText]}>
+          Next carwash was due in
+        </Text>
       ) : (
         <Text>Car wash overdue by</Text>
       )}
