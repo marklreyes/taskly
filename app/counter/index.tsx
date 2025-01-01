@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import { Duration, isBefore, intervalToDuration } from "date-fns";
 import { TimeSegment } from "../../components/TimeSegment";
 import { getFromStorage, saveToStorage } from "../../utils/storage";
+import * as Haptics from "expo-haptics";
 
 // 10 seconds from now
 const frequency = 10 * 1000;
@@ -71,6 +72,7 @@ export default function CounterScreen() {
   }, [lastCompletedAt]);
 
   const scheduleNotification = async () => {
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
     let pushNotificationId;
     const result = await registerForPushNotificationsAsync();
     if (result === "granted") {
