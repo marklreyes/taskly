@@ -4,10 +4,14 @@ Taskly is a React Native application built using Expo. It helps users manage the
 
 ## Features
 
-- Add, edit, and delete tasks
+- Add or delete tasks
 - Mark tasks as completed
-- Organize tasks by categories
+- Countdown timer and notifications for overdue task
+- Blank "idea" screen for prototyping purposes
 - User-friendly interface
+
+## Technical Details
+Views, Text, ScrollViews, FlatList, styling, conditional styling, navigation, modals, stacked navigators, data persistence with Async Storage, layout animation with little code, improve UX with haptics, push notifications and celebrate completed task with confetti!
 
 ## Installation
 
